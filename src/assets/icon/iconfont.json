@@ -1,0 +1,58 @@
+{
+  "id": "3118275",
+  "name": "tmocp",
+  "font_family": "iconlzt",
+  "css_prefix_text": "icon-lzt-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7461686",
+      "name": "修改密码",
+      "font_class": "xiugaimima",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "12705237",
+      "name": "退出登录",
+      "font_class": "tuichudenglu",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "12889877",
+      "name": "个人中心",
+      "font_class": "gerenzhongxin",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "5090743",
+      "name": "学习管理 ",
+      "font_class": "xuexiguanli",
+      "unicode": "e715",
+      "unicode_decimal": 59157
+    },
+    {
+      "icon_id": "6729601",
+      "name": "课程管理",
+      "font_class": "kechengguanli",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "19657695",
+      "name": "订单管理",
+      "font_class": "dingdanguanli",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "8634405",
+      "name": "用户管理",
+      "font_class": "yonghuguanli",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

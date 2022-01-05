@@ -5,15 +5,17 @@
       <span>在线教育后台</span>
     </div>
     <div class="breadcrumb">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in routes" :key="item.path">
+          <router-link :to="item.path">{{ item.meta.title }}</router-link>
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="header-tool">
       <el-dropdown :hide-on-click="false">
         <span class="el-dropdown-link">
-          <img src="~@/assets/img/common/logo.svg" alt="" class="avatar" />
+          <img src="~@/assets/img/common/avtavar.jpg" alt="" class="avatar" />
           admin<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -38,6 +40,27 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      routes: [],
+    };
+  },
+  created() {
+    this.routes = this.$router.history.current.matched;
+  },
+  watch: {
+    //   监听路由的变化，动态生成面包屑
+    $route(to) {
+      this.routes = to.matched;
+      for (const item of to.matched) {
+        if (item.title !== "首页") {
+          this.routes = to.matched;
+        }
+      }
+      //   this.$store.commit("ADDTAG", to);
+    },
+  },
+  methods: {},
 };
 </script>
 
@@ -84,12 +107,11 @@ export default {
   background-color: rgba(#2bccce, 0.2) !important;
   color: #2bccce !important;
 }
-.breadcrumb{
-    position: absolute;
-    display: flex;
-    left: 235px;
-    top: 22px;
-    font-size: 16px;
-    
+.breadcrumb {
+  position: absolute;
+  display: flex;
+  left: 235px;
+  top: 22px;
+  font-size: 16px;
 }
 </style>

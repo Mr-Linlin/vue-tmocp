@@ -14,9 +14,10 @@ const routes = [
   {
     path: '/home',
     component: Layout,
+    meta: { title: '首页' },
     redirect: '/welcome',
     children: [
-      { path: '/welcome', meta: { title: '首页', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/home/Welcome') },
+      { path: '/welcome', meta: { title: 'Dashboard', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/home/Welcome') },
     ]
   },
   {

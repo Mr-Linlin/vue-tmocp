@@ -59,5 +59,6 @@ export default {
   top: 60px;
   bottom: 0;
   overflow-y: scroll;
+  overflow-x: hidden ;
 }
 </style>

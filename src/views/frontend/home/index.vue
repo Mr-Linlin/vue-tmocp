@@ -68,7 +68,14 @@
     <div class="content-main">
       <div class="box-main">
         <div class="work-trend">
-          <div class="trend">动态</div>
+          <board
+            :title="{
+              title: '工作动态',
+              icon: 'iconlzt icon-lzt-dingdanguanli',
+              more: '更多',
+            }"
+            :newinfos="newinfos"
+          />
           <div class="courses">
             <div class="tube">
               <div class="tube-img">
@@ -85,7 +92,14 @@
           </div>
         </div>
         <div class="inform">
-          <div class="trend">公告</div>
+          <board
+            :title="{
+              title: '通知公告',
+              icon: 'iconlzt icon-lzt-tongzhi',
+              more: '更多',
+            }"
+            :newinfos="newinfos"
+          />
           <div class="examtion">
             <div class="ann-tube">
               安管人员在线考试
@@ -105,8 +119,12 @@
 </template>
 
 <script>
+import Board from "./childrenComps/Board.vue";
 export default {
   name: "Index",
+  components: {
+    Board,
+  },
   data() {
     var validateUsername = (rule, value, callback) => {
       if (!value) {
@@ -140,6 +158,36 @@ export default {
         username: [{ validator: validateUsername, trigger: "blur" }],
         verifycode: [{ validator: validateVerifycode, trigger: "blur" }],
       },
+      newinfos: [
+        {
+          newtitle:
+            "【贯彻落实党代会精神】干货满满！一图读懂学校第三次党代会工作报告",
+          newvicetitle:
+            "2021年12月23日上午，中国共产党滁州职业技术学院第三次代表大会隆重召开。校党委书记曹付忠同志代表学校党委作题为《立足新阶段 实现新跨越 为推进学校全面高质量发展而努力奋斗》的工作报告。",
+          releasetime: "2022-01-05",
+        },
+        {
+          newtitle:
+            "【贯彻落实党代会精神】干货满满！一图读懂学校第三次党代会工作报告",
+          newvicetitle:
+            "2021年12月23日上午，中国共产党滁州职业技术学院第三次代表大会隆重召开。校党委书记曹付忠同志代表学校党委作题为《立足新阶段 实现新跨越 为推进学校全面高质量发展而努力奋斗》的工作报告。",
+          releasetime: "2022-01-05",
+        },
+        {
+          newtitle:
+            "【贯彻落实党代会精神】干货满满！一图读懂学校第三次党代会工作报告",
+          newvicetitle:
+            "2021年12月23日上午，中国共产党滁州职业技术学院第三次代表大会隆重召开。校党委书记曹付忠同志代表学校党委作题为《立足新阶段 实现新跨越 为推进学校全面高质量发展而努力奋斗》的工作报告。",
+          releasetime: "2022-01-05",
+        },
+        {
+          newtitle:
+            "【贯彻落实党代会精神】干货满满！一图读懂学校第三次党代会工作报告",
+          newvicetitle:
+            "2021年12月23日上午，中国共产党滁州职业技术学院第三次代表大会隆重召开。校党委书记曹付忠同志代表学校党委作题为《立足新阶段 实现新跨越 为推进学校全面高质量发展而努力奋斗》的工作报告。",
+          releasetime: "2022-01-05",
+        },
+      ],
     };
   },
 };
@@ -151,7 +199,7 @@ export default {
   height: 70px;
   line-height: 70px;
   margin-bottom: 10px;
-  box-shadow: 0px 1px 5px rgba(100, 100, 100, 0.5);
+  // box-shadow: 0px 1px 5px rgba(100, 100, 100, 0.5);
   .top-wrap {
     width: 1151px;
     // background: fuchsia;
@@ -318,11 +366,11 @@ export default {
             color: rgb(239, 167, 0);
           }
         }
-        .tube::before {
+        .tube-img::before {
           position: absolute;
           right: 0;
           display: block;
-          content: '';
+          content: "";
           width: 1px;
           height: 80%;
           background: #ccc;

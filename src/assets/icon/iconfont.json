@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "9305080",
+      "name": "通知",
+      "font_class": "tongzhi",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
       "icon_id": "10332561",
       "name": "-s-特种作业人员",
       "font_class": "-s-tezhongzuoyerenyuan",

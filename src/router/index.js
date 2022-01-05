@@ -14,7 +14,7 @@ const routes = [
   {
     path: '/home',
     component: Layout,
-    meta: { title: '首页' },
+    meta: { title: '后台首页' },
     redirect: '/welcome',
     children: [
       { path: '/welcome', meta: { title: 'Dashboard', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/home/Welcome') },
@@ -57,6 +57,12 @@ const routes = [
     children: [
       { path: '/learnRecord', meta: { title: '学习记录', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/record/LearnRecord') },
     ]
+  },
+  {
+    path: '/index',
+    meta: { title: '首页' },
+    name: 'index',
+    component: () => import('@/views/frontend/home/index'),
   },
   { path: '*', component: () => import('@/views/error-page/404') }
 ]

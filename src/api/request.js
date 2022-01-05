@@ -1,12 +1,14 @@
 import axios from 'axios'
 // import router from '@/router'
-
 export function request(config) {
     const instance = axios.create({
-        baseURL: "http://42.192.202.240:8087/tmocp/",
+        baseURL: "http://42.192.202.240:8087/tmocp",
         timeout: 5000,
     })
     instance.interceptors.request.use(config => {
+        // if (config.data != '[object FormData]') { // 不是formdata类型
+        //     config.data = qs.stringify(config.data) // 转为formdata数据格式
+        // }
         // let token = window.sessionStorage.getItem('token')
         // if (token === null) {
         //     return router.push('/login')

@@ -43,14 +43,14 @@ export default {
         sessionStorage.setItem("menuActive", state.menuActive);
     },
     // 将处理好有权限的路由和静态路由进行合并，最后在getters就能实现左边侧边栏展示
-    DYNAMICROUTER(state, newRoutes) {
-        router.addRoutes(newRoutes)
-        state.asyncRoutes = newRoutes
+    DYNAMICROUTER(state, data) {
+        router.addRoutes(data.newRoutes)
+        state.asyncRoutes = data.newRoutes
         // 改变当前登录状态，改为true存起来
         state.isLoginActive = true
         // 将状态保存到本地存储中
         localStorage.setItem('menus', JSON.stringify(state.asyncRoutes))
-        localStorage.setItem('isLoginActive', state.isLoginActive)
+        localStorage.setItem('roles', data.roles)
     },
     // 点击退出登录，将登录状态清除
     LOGOUT(state) {

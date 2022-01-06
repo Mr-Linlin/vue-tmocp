@@ -56,7 +56,7 @@ export const aysncRouter = [
   {
     path: '/order',
     component: Layout,
-    meta: { title: '订单管理', roles: ['admin'], icon: 'iconlzt icon-lzt-dingdanguanli' },
+    meta: { title: '订单管理', roles: ['testin'], icon: 'iconlzt icon-lzt-dingdanguanli' },
     redirect: '/orderList',
     children: [
       { path: '/orderList', name: 'orderList', meta: { title: '订单', icon: 'iconlzt icon-lzt-dingdanguanli' }, component: () => import('@/views/backend/order/OrderList') },
@@ -97,10 +97,17 @@ router.beforeEach((to, from, next) => {
 })
 // 防止页面刷新后丢失数据,在页面刷新时初始化动态路由
 export const initRoutes = () => {
-  let isLoginActive = localStorage.getItem('isLoginActive')
-  if (isLoginActive) {
-    aysncRouter.push({ path: '*', component: () => import('@/views/error-page/404') })
-    router.addRoutes(aysncRouter)
+  let roles = localStorage.getItem('roles')
+  let currentRoutes=[]
+  if (roles === 'admin') {
+    aysncRouter.forEach(item => {
+      let result = item.meta.roles.findIndex(item => item === roles)
+      if (result !== -1) {
+        currentRoutes.push(item)
+      }
+    });
+    currentRoutes.push({ path: '*', component: () => import('@/views/error-page/404') })
+    router.addRoutes(currentRoutes)
   }
 }
 export default router

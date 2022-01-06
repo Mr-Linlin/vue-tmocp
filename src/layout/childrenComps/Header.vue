@@ -52,12 +52,7 @@ export default {
     //   监听路由的变化，动态生成面包屑
     $route(to) {
       this.routes = to.matched;
-      for (const item of to.matched) {
-        if (item.title !== "首页") {
-          this.routes = to.matched;
-        }
-      }
-      //   this.$store.commit("ADDTAG", to);
+      this.$store.commit("ADDTAG", to);
     },
   },
   methods: {},

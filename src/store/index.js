@@ -8,6 +8,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    tags: [
+      {
+        path: '/',
+        title: '首页',
+        name: 'home',
+        icon: 'el-icon-s-home'
+      }
+    ]
   },
   mutations: mutations,
   actions: actions,

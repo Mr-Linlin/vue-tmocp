@@ -3,8 +3,16 @@
     <el-row :gutter="20">
       <el-col :span="8"
         ><div class="grid-content bg-purple">
-          <el-input placeholder="请输入内容" class="input-with-select">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input
+            placeholder="根据学号查询"
+            class="input-with-select"
+            v-model="stunumber"
+          >
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="queryUser"
+            ></el-button>
           </el-input></div
       ></el-col>
       <el-col :span="6"
@@ -101,10 +109,15 @@ export default {
   data() {
     return {
       userList: [],
+      queryInfo: {
+        table: "tm_ocp_user",
+        inmap: "",
+      },
+      stunumber: "",
     };
   },
   created() {
-    this.getUserList("tm_ocp_user");
+    this.getUserList(this.queryInfo);
   },
 
   methods: {
@@ -124,6 +137,22 @@ export default {
       }
       this.userList = data;
     },
+    /**
+     * 点击查询后根据学号查询学生
+     */
+    async queryUser() {
+      this.queryInfo.inmap = JSON.stringify({ stunumber: this.stunumber });
+      let { data } = await getUserList(this.queryInfo);
+      if (data.length === 0) return this.$message.error("查无此人！");
+      for (const item of data) {
+        if (item.userstatus == 1 && item.userstatus == "1") {
+          item.userstatus = true;
+        } else {
+          item.userstatus = false;
+        }
+      }
+      this.userList = data;
+    },
   },
 };
 </script>
@@ -134,5 +163,6 @@ export default {
 }
 .box-card {
   width: 100% !important;
+  margin: 15px;
 }
 </style>

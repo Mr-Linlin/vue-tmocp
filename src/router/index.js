@@ -2,6 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '@/layout/index'
 
+// 解决重复点击路由导致的错误
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,7 +22,7 @@ const routes = [
     meta: { title: '后台首页' },
     redirect: '/welcome',
     children: [
-      { path: '/welcome', meta: { title: 'Dashboard', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/home/Welcome') },
+      { path: '/welcome',name:"home", meta: { title: 'Dashboard', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/home/Welcome') },
     ]
   },
   {
@@ -26,7 +31,7 @@ const routes = [
     meta: { title: '用户管理' },
     redirect: '/userList',
     children: [
-      { path: '/userList', meta: { title: '用户列表', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/user/UserList') },
+      { path: '/userList', name: 'userList', meta: { title: '用户列表', icon: 'iconlzt icon-lzt-yonghuguanli' }, component: () => import('@/views/backend/user/UserList') },
     ]
   },
   {
@@ -35,8 +40,8 @@ const routes = [
     meta: { title: '课程管理' },
     redirect: '/courseList',
     children: [
-      { path: '/courseList', meta: { title: '课程', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/course/CourseList') },
-      { path: '/courseProfessional', meta: { title: '课程专业', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/course/CourseProfessional') }
+      { path: '/courseList', name: 'courseList', meta: { title: '课程', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/backend/course/CourseList') },
+      { path: '/courseProfessional', name: 'courseProfessional', meta: { title: '课程专业', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/backend/course/CourseProfessional') }
     ]
   },
   {
@@ -45,8 +50,8 @@ const routes = [
     meta: { title: '订单管理' },
     redirect: '/orderList',
     children: [
-      { path: '/orderList', meta: { title: '订单', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/order/OrderList') },
-      { path: '/orderWater', meta: { title: '订单流水', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/order/OrderWater') }
+      { path: '/orderList', name: 'orderList', meta: { title: '订单', icon: 'iconlzt icon-lzt-dingdanguanli' }, component: () => import('@/views/backend/order/OrderList') },
+      { path: '/orderWater', name: 'orderWater', meta: { title: '订单流水', icon: 'iconlzt icon-lzt-dingdanguanli' }, component: () => import('@/views/backend/order/OrderWater') }
     ]
   },
   {
@@ -55,7 +60,7 @@ const routes = [
     meta: { title: '学习管理' },
     redirect: '/learnRecord',
     children: [
-      { path: '/learnRecord', meta: { title: '学习记录', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/record/LearnRecord') },
+      { path: '/learnRecord', name: 'learnRecord', meta: { title: '学习记录', icon: 'iconlzt icon-lzt-xuexiguanli' }, component: () => import('@/views/backend/record/LearnRecord') },
     ]
   },
   {

@@ -27,7 +27,7 @@
             ><i class="iconlzt icon-lzt-xiugaimima"></i
             >修改密码</el-dropdown-item
           >
-          <el-dropdown-item
+          <el-dropdown-item @click.native=logout
             ><i class="iconlzt icon-lzt-tuichudenglu"></i
             >退出登录</el-dropdown-item
           >
@@ -40,6 +40,7 @@
 <script>
 export default {
   name: "Header",
+  inject:['reload'],//注入刷新方法
   data() {
     return {
       routes: [],
@@ -55,7 +56,14 @@ export default {
       this.$store.commit("ADDTAG", to);
     },
   },
-  methods: {},
+  methods: {
+    // 点击退出登录
+    logout() {
+      this.$store.commit("LOGOUT");
+      this.$router.push("/index");
+      this.reload()
+    },
+  },
 };
 </script>
 

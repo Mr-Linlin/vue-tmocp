@@ -1,22 +1,23 @@
 <template>
   <div class="sider-aside">
     <el-menu
+      :default-active="menuActive"
       background-color="rgb(40, 42, 54)"
       text-color="#fff"
       active-text-color="#1d82fe"
       router
       unique-opened
     >
-      <el-submenu :index="item.id + ''" v-for="item in menus" :key="item.id">
+      <el-submenu :index="item.path" v-for="item in menuList" :key="item.path">
         <template slot="title">
-          <i :class="item.icon" class="icon"></i>
-          <span>{{ item.title }}</span>
+          <i :class="item.meta.icon" class="icon"></i>
+          <span>{{ item.meta.title }}</span>
         </template>
         <el-menu-item-group v-for="(i, index) in item.children" :key="index">
-          <el-menu-item :index="i.path">
+          <el-menu-item :index="i.path" @click="activeClick(i)">
             <template slot="title">
-              <i :class="i.icon" class="icon"></i>
-              <span>{{ i.title }}</span>
+              <i :class="i.meta.icon" class="icon"></i>
+              <span>{{ i.meta.title }}</span>
             </template>
           </el-menu-item>
         </el-menu-item-group>
@@ -26,13 +27,24 @@
 </template>
 
 <script>
-import { rights } from "@/utils/menu";
+// import { rights } from "@/utils/menu";
+import { mapGetters } from "vuex";
 export default {
   name: "Aside",
   data() {
     return {
-      menus: rights,
+      // menus: rights,
     };
+  },
+  mounted() {
+  },
+  methods: {
+    activeClick(item) {
+      this.$store.commit("SETMUNEACTIVE", item.path);
+    },
+  },
+  computed: {
+    ...mapGetters(["menuActive", "menuList"]),
   },
 };
 </script>

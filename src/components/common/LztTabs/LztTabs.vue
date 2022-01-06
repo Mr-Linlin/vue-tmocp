@@ -44,6 +44,7 @@ export default {
     },
     // 点击选项卡切换路由
     handleClick(item) {
+      sessionStorage.setItem('menuActive',item.name)
       this.$router.push(item.path);
     },
   },
@@ -55,12 +56,12 @@ export default {
 
 <style lang="less" scoped>
 .lzt-tabs {
-  height: 40px;
+  height: 42px;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   background: #fff;
-  line-height: 40px;
+  line-height: 42px;
   //   padding-right: 40px !important;
-  z-index: 99;
+  z-index: 0;
 }
 .tabs-wrap {
   display: flex;

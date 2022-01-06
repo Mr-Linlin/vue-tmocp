@@ -15,7 +15,10 @@ export default new Vuex.Store({
         name: 'home',
         icon: 'el-icon-s-home'
       }
-    ]
+    ],
+    menuActive: '',
+    asyncRoutes: [],//用来存放静态路由加动态路由
+    isLoginActive: false,//判断登录状态
   },
   mutations: mutations,
   actions: actions,

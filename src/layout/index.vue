@@ -66,7 +66,7 @@ export default {
   border-top: 1px solid rgba(#ccc,.1);
   background: rgb(240, 242, 245);
   // padding-top: 1px !important;
-  z-index: 9999;
+  z-index: 0;
 }
 .tabs{
   position: fixed;

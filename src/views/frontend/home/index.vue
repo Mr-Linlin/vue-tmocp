@@ -55,7 +55,9 @@
             </div>
           </el-form-item>
           <el-form-item style="margin-bottom: 10px">
-            <el-button type="primary" class="submit">登录</el-button>
+            <el-button type="primary" class="submit" @click="submitForm"
+              >登录</el-button
+            >
           </el-form-item>
           <div class="port">
             <div class="back-pwd">忘记密码？</div>
@@ -79,13 +81,13 @@
           <div class="courses">
             <div class="tube">
               <div class="tube-img">
-                <i class="iconlzt iconlzt icon-lzt--s-tezhongzuoyerenyuan"></i>
+                <!-- <i class="iconlzt iconlzt icon-lzt--s-tezhongzuoyerenyuan"></i> -->
               </div>
               安管人员培训课程
             </div>
             <div class="special">
               <div class="special-img">
-                <i class="iconlzt icon-lzt--s-tezhongzuoyerenyuan"></i>
+                <!-- <i class="iconlzt icon-lzt--s-tezhongzuoyerenyuan"></i> -->
               </div>
               特种作业人员培训课程
             </div>
@@ -102,12 +104,12 @@
           />
           <div class="examtion">
             <div class="ann-tube">
-              安管人员在线考试
-              <div class="goback">点击进入</div>
+              <!-- 安管人员在线考试
+              <div class="goback">点击进入</div> -->
             </div>
             <div class="train-course">
-              继续教育培训课程
-              <div class="goback">点击进入</div>
+              <!-- 继续教育培训课程
+              <div class="goback">点击进入</div> -->
             </div>
           </div>
         </div>
@@ -190,6 +192,15 @@ export default {
       ],
     };
   },
+  methods: {
+    // 点击进行登录
+    submitForm(){
+      // console.log('登录了');
+      let roles='admin'
+      this.$store.dispatch('DYNAMICROUTER',roles)
+      this.$router.push('/')
+    }
+  },
 };
 </script>
 
@@ -249,7 +260,7 @@ export default {
 }
 .swiper {
   position: relative;
-  background: url("~@/assets/img/common/bg.jpeg") no-repeat;
+  background: url("~@/assets/img/home/bg.jpg") no-repeat;
   background-size: 100%;
   height: 400px;
   margin-bottom: 10px;
@@ -348,7 +359,7 @@ export default {
           cursor: pointer;
           .tube-img,
           .special-img {
-            height: 60px;
+            height: 68px;
             width: 100px;
             border-radius: 15px;
             line-height: 60px;
@@ -362,8 +373,7 @@ export default {
         .tube {
           position: relative;
           .tube-img {
-            border: 1px solid rgb(239, 167, 0);
-            color: rgb(239, 167, 0);
+            background: url("~@/assets/img/home/t_1.png");
           }
         }
         .tube-img::before {
@@ -376,8 +386,9 @@ export default {
           background: #ccc;
         }
         .special-img {
-          border: 1px solid rgb(13, 172, 203);
-          color: rgb(13, 172, 203);
+          background: url("~@/assets/img/home/t_2.png");
+          // border: 1px solid rgb(13, 172, 203);
+          // color: rgb(13, 172, 203);
         }
       }
     }
@@ -399,6 +410,7 @@ export default {
           color: #fff;
           font-size: 20px;
           font-weight: 550;
+          cursor: pointer;
           .goback {
             margin-left: 20px;
             color: #000;
@@ -414,10 +426,11 @@ export default {
           }
         }
         .ann-tube {
-          background: rgb(123, 201, 249);
+          background: url("~@/assets/img/home/link_1.jpg");
         }
         .train-course {
-          background: rgb(251, 203, 118);
+          // background: rgb(251, 203, 118);
+          background: url("~@/assets/img/home/link_2.jpg");
           margin-top: 10px;
         }
       }

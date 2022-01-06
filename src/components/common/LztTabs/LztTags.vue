@@ -59,5 +59,6 @@ export default {
 .tags:hover {
   background: rgba(6, 12, 12, 0.1);
   color: rgb(43, 204, 206);
+  height: 42px;
 }
 </style>

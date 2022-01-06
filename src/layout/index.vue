@@ -10,7 +10,7 @@
         </el-aside>
         <el-main class="content-main">
           <!-- 选项卡 -->
-          <lzt-tabs />
+          <lzt-tabs class="tabs"/>
           <keep-alive>
             <router-view />
           </keep-alive>
@@ -59,7 +59,7 @@ export default {
   // padding: 15px !important;
   left: 220px;
   right: 0;
-  top: 60px;
+  top: 100px;
   bottom: 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -67,5 +67,12 @@ export default {
   background: rgb(240, 242, 245);
   // padding-top: 1px !important;
   z-index: 9999;
+}
+.tabs{
+  position: fixed;
+  top: 60px;
+  left: 220px;
+  right: 0;
+  border-top: 1px solid rgba(#ccc,.2);
 }
 </style>

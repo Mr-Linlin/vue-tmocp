@@ -52,7 +52,7 @@ export default {
 <style lang="less">
 .el-menu {
   background-color: rgb(40, 42, 54) !important;
-  border-right: 1px;
+  border-right: 1px !important;
   .icon {
     margin-right: 10px;
     color: #fff;

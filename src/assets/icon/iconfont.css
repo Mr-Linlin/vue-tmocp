@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconlzt"; /* Project id 3118275 */
-  src: url('iconfont.woff2?t=1641387735466') format('woff2'),
-       url('iconfont.woff?t=1641387735466') format('woff'),
-       url('iconfont.ttf?t=1641387735466') format('truetype'),
-       url('iconfont.svg?t=1641387735466#iconlzt') format('svg');
+  src: url('iconfont.woff2?t=1641555572876') format('woff2'),
+       url('iconfont.woff?t=1641555572876') format('woff'),
+       url('iconfont.ttf?t=1641555572876') format('truetype'),
+       url('iconfont.svg?t=1641555572876#iconlzt') format('svg');
 }
 
 .iconlzt {
@@ -12,6 +12,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-lzt-shanchu:before {
+  content: "\e74b";
+}
+
+.icon-lzt-kaoshi:before {
+  content: "\e673";
+}
+
+.icon-lzt-bianji:before {
+  content: "\e67f";
 }
 
 .icon-lzt-tongzhi:before {

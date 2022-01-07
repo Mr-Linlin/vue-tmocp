@@ -196,8 +196,10 @@ export default {
     // 点击进行登录
     submitForm(){
       // console.log('登录了');
-      let roles='admin'
+      let roles='testin'
+      let token = 'lztzwj'
       this.$store.dispatch('DYNAMICROUTER',roles)
+      this.$store.commit('SET_TOKEN',token)
       this.$router.push('/')
     }
   },

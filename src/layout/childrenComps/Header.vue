@@ -7,7 +7,7 @@
     <div class="breadcrumb">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item>首页</el-breadcrumb-item>
-        <el-breadcrumb-item v-for="item in routes" :key="item.path">
+        <el-breadcrumb-item v-for="item in routes" :key="item.name">
           <router-link :to="item.path">{{ item.meta.title }}</router-link>
         </el-breadcrumb-item>
       </el-breadcrumb>
@@ -27,12 +27,13 @@
             ><i class="iconlzt icon-lzt-xiugaimima"></i
             >修改密码</el-dropdown-item
           >
-          <el-dropdown-item @click.native=logout
+          <el-dropdown-item @click.native="logout"
             ><i class="iconlzt icon-lzt-tuichudenglu"></i
             >退出登录</el-dropdown-item
           >
         </el-dropdown-menu>
       </el-dropdown>
+      <!-- <div class="go-switch">前往学生端</div> -->
     </div>
   </div>
 </template>
@@ -40,7 +41,7 @@
 <script>
 export default {
   name: "Header",
-  inject:['reload'],//注入刷新方法
+  inject: ["reload"], //注入刷新方法
   data() {
     return {
       routes: [],
@@ -61,7 +62,7 @@ export default {
     logout() {
       this.$store.commit("LOGOUT");
       this.$router.push("/index");
-      this.reload()
+      this.reload();
     },
   },
 };
@@ -76,7 +77,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 219px;
+  width: 220px;
   background: rgb(40, 42, 54);
   height: 100%;
   img {

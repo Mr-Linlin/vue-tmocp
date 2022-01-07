@@ -43,19 +43,35 @@ export default {
         sessionStorage.setItem("menuActive", state.menuActive);
     },
     // 将处理好有权限的路由和静态路由进行合并，最后在getters就能实现左边侧边栏展示
-    DYNAMICROUTER(state, data) {
-        router.addRoutes(data.newRoutes)
-        state.asyncRoutes = data.newRoutes
-        // 改变当前登录状态，改为true存起来
-        state.isLoginActive = true
+    DYNAMICROUTER(state, newRoutes) {
+        router.addRoutes(newRoutes)
+        state.asyncRoutes = newRoutes
+        // // 改变当前登录状态，改为true存起来
+        // state.isLoginActive = true
         // 将状态保存到本地存储中
         localStorage.setItem('menus', JSON.stringify(state.asyncRoutes))
-        localStorage.setItem('roles', data.roles)
+    },
+    //将角色存到本地中
+    SET_Roles(state, roles) {
+        state.roles = roles
+        localStorage.setItem('roles', state.roles)
     },
     // 点击退出登录，将登录状态清除
     LOGOUT(state) {
-        state.isLoginActive = false
+        state.asyncRoutes = []
+        state.roles = ''
+        state.menuActive = ''
+        state.tags = [{
+            path: '/',
+            title: '首页',
+            name: 'home',
+            icon: 'el-icon-s-home'
+        }]
         localStorage.clear()
         sessionStorage.clear()
+    },
+    // 将token保存到会话中
+    SET_TOKEN(state, token) {
+        sessionStorage.setItem('token', token)
     }
 }

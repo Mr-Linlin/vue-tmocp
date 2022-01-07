@@ -11,6 +11,7 @@ export default {
                 }
             });
         }
-        commit('DYNAMICROUTER',{ newRoutes,roles})
+        commit('DYNAMICROUTER', newRoutes)
+        commit('SET_Roles', roles)
     }
 }

@@ -10,8 +10,8 @@
         </el-aside>
         <el-main class="content-main">
           <!-- 选项卡 -->
-          <lzt-tabs class="tabs"/>
-          <keep-alive>
+          <lzt-tabs class="tabs" />
+          <keep-alive :exclude="['StudyVideo']">
             <router-view />
           </keep-alive>
         </el-main>
@@ -63,16 +63,16 @@ export default {
   bottom: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  border-top: 1px solid rgba(#ccc,.1);
+  border-top: 1px solid rgba(#ccc, 0.1);
   background: rgb(240, 242, 245);
   // padding-top: 1px !important;
   z-index: 0;
 }
-.tabs{
+.tabs {
   position: fixed;
   top: 60px;
   left: 220px;
   right: 0;
-  border-top: 1px solid rgba(#ccc,.2);
+  border-top: 1px solid rgba(#ccc, 0.2);
 }
 </style>

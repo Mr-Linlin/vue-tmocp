@@ -4,6 +4,8 @@
     <el-row :gutter="20" class="row">
       <el-col :span="8">
         <el-input
+          @keyup.enter.native="query"
+          @clear="clear"
           placeholder="请输入学号"
           v-model="queryInfo.stunumber"
           clearable
@@ -14,9 +16,7 @@
         </el-input>
       </el-col>
       <el-col :span="4">
-        <el-button type="primary" @click="dialogVisible = true"
-          >添加用户</el-button
-        >
+        <el-button type="primary" @click="oppenPopup(null)">添加用户</el-button>
       </el-col>
     </el-row>
     <el-table
@@ -27,7 +27,7 @@
       :cell-style="{ textAlign: 'center' }"
       :header-cell-style="{ textAlign: 'center' }"
     >
-     <el-table-column type="index" label="#"></el-table-column>
+      <el-table-column type="index" label="#"></el-table-column>
       <el-table-column prop="realname" label="姓名"> </el-table-column>
       <el-table-column prop="sex" label="性别" width="50"> </el-table-column>
       <el-table-column prop="phone" label="手机号" width="180">
@@ -47,13 +47,9 @@
       </el-table-column>
       <!-- 状态 -->
       <el-table-column prop="userstatus" label="状态">
-        <template slot-scope="scope">
-          <el-switch
-            v-model="scope.row.userstatus"
-            active-color="#409eff"
-            inactive-color="#dcdfe6"
-          >
-          </el-switch>
+        <template slot-scope="item">
+          <el-tag v-if="item.row.userstatus === '1'">使用</el-tag>
+          <el-tag type="warning" v-else>停用</el-tag>
         </template>
       </el-table-column>
       <!-- 用户权限 -->
@@ -71,19 +67,21 @@
         </template>
       </el-table-column>
       <!-- 考试权限 -->
-      <el-table-column prop="address" label="用户考试权限">
+      <el-table-column prop="userexamcategory" label="用户考试权限">
         <template slot-scope="item">
-          <el-tag v-if="item.row.address === '1'">拥有权限</el-tag>
+          <el-tag v-if="item.row.userexamcategory === '1'">拥有权限</el-tag>
           <el-tag type="warning" v-else>暂无权限</el-tag>
         </template>
       </el-table-column>
       <!-- 操作 -->
       <el-table-column label="操作" width="160">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="modify(scope.row.id)"
+          <el-button size="mini" type="primary" @click="oppenPopup(scope.row)"
             >修改</el-button
           >
-          <el-button size="mini" type="danger">删除</el-button>
+          <el-button size="mini" type="danger" @click="reomve(scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -98,13 +96,23 @@
       :total="total"
     >
     </el-pagination> -->
+    <!-- 弹窗 -->
+    <user-popup
+      class="popup"
+      :data="current"
+      :visible.sync="showEdit"
+      @cancelPopup="cancelPopup"
+    />
   </el-card>
 </template>
 
 <script>
-import { getUserList } from "@/api/user";
+import { getUserList, remove } from "@/api/user";
+import UserPopup from "./userPopup/UserPopup.vue";
 export default {
+  components: { UserPopup },
   name: "UserList",
+  inject:['reload'],
   data() {
     return {
       userList: [],
@@ -115,7 +123,10 @@ export default {
         table: "tm_ocp_user",
         stunumber: "",
       },
-
+      // 当前编辑数据
+      current: null,
+      // 是否显示编辑弹窗
+      showEdit: false,
       //  query: {
       //   pageNum: 1,//页
       //   limit: 5,//条
@@ -133,17 +144,8 @@ export default {
     // 获取用户列表
     async getUserList(table) {
       let { data, count } = await getUserList(table);
-      // console.log(data);
-      data.forEach((item) => {
-        if (item.userstatus == 1) {
-          return (item.userstatus = true);
-        } else {
-          return (item.userstatus = false);
-        }
-      });
       this.userList = data;
       this.total = count;
-      // console.log(this.userList);
     },
     // 查询
     async query() {
@@ -151,20 +153,38 @@ export default {
         stunumber: this.queryInfo.stunumber,
       });
       let { data } = await getUserList(this.queryInfo);
-
-      data.forEach((item) => {
-        if (item.userstatus == 1) {
-          return (item.userstatus = true);
-        } else {
-          return (item.userstatus = false);
-        }
-      });
       this.userList = data;
     },
-  
-    // 修改
-    modify(id) {
-      console.log(id);
+    // 删除
+    async reomve(id) {
+      let obj = {};
+      obj.table = "tm_ocp_user";
+      obj.deletekey = "id";
+      obj.deletearray = JSON.stringify([id]);
+      let res = await remove(obj);
+      this.reload();
+      console.log(res);
+    },
+    // 清空对话框,把数据全部显示回来
+    clear() {
+      this.queryInfo.inmap = "";
+      this.getUserList(this.queryInfo);
+      this.reload();
+    },
+
+    // 添加--修改打开对话框
+    oppenPopup(row) {
+      console.log(row);
+      this.current = row;
+      this.showEdit = true;
+      console.log(this.showEdit);
+    },
+
+    // 子组件关闭弹窗
+    cancelPopup(val) {
+      console.log(val);
+      this.showEdit = !val;
+      this.reload()
     },
     // 分页
     // handleSizeChange(val) {//条
@@ -186,5 +206,8 @@ export default {
 .showImg {
   width: 150px;
   height: 84px;
+}
+.popup {
+  width: 100%;
 }
 </style>

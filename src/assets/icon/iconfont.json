@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "9305080",
+      "name": "通知",
+      "font_class": "tongzhi",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "10332561",
+      "name": "-s-特种作业人员",
+      "font_class": "-s-tezhongzuoyerenyuan",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "13684743",
+      "name": "治安管理重点人员_  ",
+      "font_class": "zhianguanlizhongdianrenyuan_",
+      "unicode": "e728",
+      "unicode_decimal": 59176
+    },
+    {
       "icon_id": "7461686",
       "name": "修改密码",
       "font_class": "xiugaimima",

@@ -1,4 +1,5 @@
 <template>
+
   <el-card>
     <!--      搜索与添加区域-->
     <el-row :gutter="20" class="row">
@@ -22,7 +23,7 @@
     <el-table
       :data="userList"
       border
-      style="width: 100%"
+      style="width: 100%;margin-bottom:20px"
       stripe
       :cell-style="{ textAlign: 'center' }"
       :header-cell-style="{ textAlign: 'center' }"
@@ -35,7 +36,7 @@
       <el-table-column prop="accountnumber" label="账号" width="100">
       </el-table-column>
       <el-table-column prop="idcardno" label="身份证号"> </el-table-column>
-      <el-table-column prop="photoimgurl" label="照片" width="200">
+      <el-table-column prop="photoimgurl" label="照片" width="150">
         <template slot-scope="scope">
           <img :src="scope.row.photoimgurl" alt="" class="showImg" />
         </template>
@@ -85,25 +86,28 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
-    <!-- <el-pagination
+   <!--      分页-->
+    <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="query.pageNum"
-      :page-sizes="[5, 7, 10]"
-      :page-size="query.limit"
+      :current-page="queryInfo.page"
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="queryInfo.limit"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
+      backgroundf
     >
-    </el-pagination> -->
+    </el-pagination>
     <!-- 弹窗 -->
     <user-popup
       class="popup"
       :data="current"
       :visible.sync="showEdit"
       @cancelPopup="cancelPopup"
+      
     />
-  </el-card>
+
+ </el-card>
 </template>
 
 <script>
@@ -122,6 +126,14 @@ export default {
       queryInfo: {
         table: "tm_ocp_user",
         stunumber: "",
+          page: 1,
+        paging: true,
+        limit: 5,
+        orderarray: JSON.stringify([
+          {
+            id: "ASC",
+          },
+        ]),
       },
       // 当前编辑数据
       current: null,
@@ -131,6 +143,7 @@ export default {
       //   pageNum: 1,//页
       //   limit: 5,//条
       // },
+
     };
   },
   created() {
@@ -143,13 +156,14 @@ export default {
      */
     // 获取用户列表
     async getUserList(table) {
+
       let { data, count } = await getUserList(table);
       this.userList = data;
       this.total = count;
     },
     // 查询
     async query() {
-      this.queryInfo.inmap = JSON.stringify({
+      this.queryInfo.likemap = JSON.stringify({
         stunumber: this.queryInfo.stunumber,
       });
       let { data } = await getUserList(this.queryInfo);
@@ -162,39 +176,38 @@ export default {
       obj.deletekey = "id";
       obj.deletearray = JSON.stringify([id]);
       let res = await remove(obj);
-      this.reload();
+      this.getUserList(this.queryInfo);
+      
       console.log(res);
     },
     // 清空对话框,把数据全部显示回来
     clear() {
-      this.queryInfo.inmap = "";
+      this.queryInfo.likemap = "";
       this.getUserList(this.queryInfo);
       this.reload();
     },
 
     // 添加--修改打开对话框
     oppenPopup(row) {
-      console.log(row);
       this.current = row;
       this.showEdit = true;
-      console.log(this.showEdit);
     },
 
     // 子组件关闭弹窗
     cancelPopup(val) {
-      console.log(val);
       this.showEdit = !val;
       this.reload()
     },
-    // 分页
-    // handleSizeChange(val) {//条
-    //   this.query.limit = val;
-    //   this.getUserList(this.query);
-    // },
-    // handleCurrentChange(val) {//页
-    //   this.query.pageNum = val;
-    //   this.getUserList(this.query);
-    // },
+     //条数
+    handleSizeChange(newSize){
+      this.queryInfo.limit = newSize
+      this.getUserList(this.queryInfo)
+    },
+    //页码
+    handleCurrentChange(newPage){
+      this.queryInfo.page = newPage
+      this.getUserList(this.queryInfo)
+    }
   },
 };
 </script>
@@ -204,10 +217,11 @@ export default {
   margin-bottom: 20px;
 }
 .showImg {
-  width: 150px;
-  height: 84px;
+  width: 80px;
+  height: 40px;
 }
 .popup {
-  width: 100%;
+  z-index: 2000;
 }
+
 </style>

@@ -57,3 +57,8 @@ a {
 .right {
     float: right;
 }
+
+.v-modal {
+    z-index: 0;
+    opacity: 0;
+}

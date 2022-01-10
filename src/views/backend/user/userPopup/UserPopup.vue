@@ -6,6 +6,7 @@
     width="45%"
     class="dialog"
     :before-close="handleClose"
+    :modal-append-to-body='false'
   >
     <!-- 主题内容 -->
     <el-form
@@ -15,11 +16,8 @@
       :rules="rules"
       label-width="120px"
     >
-      <el-row :gutter="15" style="height: 500px; overflow-y: scroll">
+      <el-row :gutter="15" style="height: 450px">
         <el-col :sm="20">
-          <el-form-item label="ID:">
-            <el-input v-model="form.id" disabled></el-input>
-          </el-form-item>
           <div class="box">
             <el-form-item label="姓名:" prop="realname">
               <el-input v-model="form.realname"></el-input>
@@ -105,7 +103,6 @@
             <el-select
               v-model="form.userexamcategory"
               placeholder="请选择"
-              style="width: 524px"
             >
               <el-option
                 v-for="item in userexamcategory"
@@ -281,10 +278,12 @@ export default {
         });
       }
     },
-    close() {},
     // 告诉父组件关闭弹窗
     dialogVisibles() {
       this.$emit("cancelPopup", this.dialogVisible);
+    },
+    close(){
+      this.dialogVisibles();
     },
     handleClose() {
       this.dialogVisibles();
@@ -292,8 +291,9 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
 .box {
   display: flex;
 }
+
 </style>

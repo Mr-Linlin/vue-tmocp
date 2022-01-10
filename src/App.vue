@@ -3,8 +3,8 @@
     <router-view v-if="refresh" />
   </div>
 </template>
-
 <script>
+import {initRoutes} from './router'
 export default {
   name: "app",
   provide(){
@@ -17,6 +17,9 @@ export default {
       refresh:true
     }
   },
+  created(){
+    initRoutes()
+  },
   methods:{
     reload(){
       this.refresh = false;
@@ -28,6 +31,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 @import url("./assets/css/base.css");
+
 </style>

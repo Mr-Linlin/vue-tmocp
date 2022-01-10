@@ -2,6 +2,7 @@
   <div class="lzt-box">
     <div class="lzt-item">
       <div class="item-title">{{ item.papername }}</div>
+      <div class="item-title">{{ `试卷类型：${item.papertype}` }}</div>
       <div class="item-row">
         <span>开始时间：</span>
         {{ $moment(item.createtime).format("YYYY-MM-DD HH:mm:ss") }}
@@ -25,12 +26,12 @@ export default {
   props: {
     item: { type: Object },
   },
-  methods:{
+  methods: {
     //   点击想父组件发送进入考试请求
-    goExam(){
-        this.$emit('goExam',this.item)
-    }
-  }
+    goExam() {
+      this.$emit("goExam", this.item);
+    },
+  },
 };
 </script>
 
@@ -38,7 +39,7 @@ export default {
 .lzt-item {
   position: relative;
   width: 220px;
-  height: 180px !important;
+  height: 200px !important;
   margin-right: 14px !important;
   margin-bottom: 15px !important;
   background: #fff;
@@ -89,7 +90,7 @@ export default {
     }
   }
 }
-.lzt-item:hover{
-    top: -5px;
+.lzt-item:hover {
+  top: -5px;
 }
 </style>

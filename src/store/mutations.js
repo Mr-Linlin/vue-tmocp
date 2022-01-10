@@ -73,5 +73,15 @@ export default {
     // 将token保存到会话中
     SET_TOKEN(state, token) {
         sessionStorage.setItem('token', token)
+    },
+    // 保存用户信息
+    SET_USERINFO(state, user) {
+        state.userInfo = user
+        sessionStorage.setItem('userInfo', JSON.stringify(state.userInfo))
+    },
+    // 保存试卷信息
+    SET_EXAMINFO(state,examInfo){
+        state.examInfo=examInfo
+        sessionStorage.setItem('examInfo',JSON.stringify(state.examInfo))
     }
 }

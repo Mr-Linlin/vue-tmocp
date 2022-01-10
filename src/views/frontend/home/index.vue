@@ -26,10 +26,10 @@
           <div class="title-container">
             <span class="title">用户登录</span>
           </div>
-          <el-form-item prop="username">
+          <el-form-item prop="accountnumber">
             <i class="iconlzt icon-lzt-gerenzhongxin icon"></i>
             <el-input
-              v-model="loginForm.username"
+              v-model="loginForm.accountnumber"
               type="text"
               placeholder="请输入用户名"
             ></el-input>
@@ -55,7 +55,10 @@
             </div>
           </el-form-item>
           <el-form-item style="margin-bottom: 10px">
-            <el-button type="primary" class="submit" @click="submitForm"
+            <el-button
+              type="primary"
+              class="submit"
+              @click="submitForm('loginForm')"
               >登录</el-button
             >
           </el-form-item>
@@ -121,7 +124,8 @@
 </template>
 
 <script>
-import Board from "./childrenComps/Board.vue";
+import Board from "./childrenComps/Board";
+import { loginInfo } from "@/api/user";
 export default {
   name: "Index",
   components: {
@@ -151,13 +155,13 @@ export default {
     };
     return {
       loginForm: {
-        username: "",
-        password: "",
+        accountnumber: "st8910",
+        password: "st0001",
         verifycode: "",
       },
       rules: {
         password: [{ validator: validatePass, trigger: "blur" }],
-        username: [{ validator: validateUsername, trigger: "blur" }],
+        accountnumber: [{ validator: validateUsername, trigger: "blur" }],
         verifycode: [{ validator: validateVerifycode, trigger: "blur" }],
       },
       newinfos: [
@@ -190,18 +194,41 @@ export default {
           releasetime: "2022-01-05",
         },
       ],
+      roles: {
+        1: "admin",
+        2: "student",
+      },
     };
   },
   methods: {
     // 点击进行登录
-    submitForm(){
+
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          loginInfo(this.loginForm).then((res) => {
+            let { code, data } = res;
+            if (code !== 200) {
+              return this.$message.error("登录失败！");
+            }
+            this.$message.success("登录成功！");
+            this.$store.dispatch("DYNAMICROUTER", this.roles[data.userpower]);
+            this.$store.dispatch("SET_TOKEN", data.token).then(() => {
+              this.$router.push("/");
+            });
+          });
+        } else {
+          console.log("error");
+          return false;
+        }
+      });
       // console.log('登录了');
-      let roles='testin'
-      let token = 'lztzwj'
-      this.$store.dispatch('DYNAMICROUTER',roles)
-      this.$store.commit('SET_TOKEN',token)
-      this.$router.push('/')
-    }
+      // let roles = "testin";
+      // let token = "lztzwj";
+      // this.$store.dispatch("DYNAMICROUTER", roles);
+      // this.$store.commit("SET_TOKEN", token);
+      // this.$router.push("/");
+    },
   },
 };
 </script>

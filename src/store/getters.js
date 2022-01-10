@@ -29,5 +29,27 @@ export default {
             return menus
         }
         return state.asyncRoutes
-    }
+    },
+    // 获取用户信息
+    userInfo: state => {
+        let userArr = Object.keys(state.userInfo)
+        let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+        if (userArr.length !== 0) {
+            return state.userInfo
+        } else if (userInfo !== null) {
+            return userInfo
+        }
+        return state.userInfo
+    },
+    // 获取试卷信息
+    examInfo: state => {
+        let examArr = Object.keys(state.examInfo)
+        let examInfo = JSON.parse(sessionStorage.getItem('examInfo'))
+        if (examArr.length !== 0) {
+            return state.examInfo
+        } else if (examInfo !== null) {
+            return examInfo
+        }
+        return state.examInfo
+    },
 }

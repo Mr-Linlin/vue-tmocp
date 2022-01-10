@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { getExamList } from "@/api/exam";
+import { getUserList } from "@/api/user";
 import LztItem from "@/components/common/itemBox/LztItem.vue";
 import TabBar from "@/components/context/tabs/TabBar.vue";
 export default {
@@ -57,7 +57,7 @@ export default {
      */
     //  获取考试列表
     async getExamList(query) {
-      let { code, data, count } = await getExamList(query);
+      let { code, data, count } = await getUserList(query);
       if (code !== 200) return this.$message.error("数据获取失败！");
       this.examList = data;
       this.total = count;
@@ -69,11 +69,22 @@ export default {
     handleCurrentChange(num) {
       this.queryInfo.page = num;
       // console.log(`当前页: ${num}`);
-      this.getExamList(this.queryInfo);
+      this.getUserList(this.queryInfo);
     },
     // 点击进入考试
     goExam(item) {
-      console.log(item.papername);
+      const loading = this.$loading({
+        lock: true,
+        text: "正在组卷中,请稍等！",
+        spinner: "el-icon-loading",
+        background: "#fff",
+      });
+      setTimeout(async () => {
+        loading.close();
+        this.$store.dispatch("SET_EXAMINFO", item).then(() => {
+          this.$router.push("/examInfo");
+        });
+      }, 1000);
     },
   },
 };

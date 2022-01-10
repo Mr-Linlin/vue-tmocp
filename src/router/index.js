@@ -33,7 +33,12 @@ const routes = [
     name: 'Index',
     component: () => import('@/views/frontend/home/index'),
   },
-
+  {
+    path: '/examInfo',
+    meta: { title: '考试' },
+    name: 'examInfo',
+    component: () => import('@/views/studentsend/exam/childrenComps/ExamInfo'),
+  },
   // { path: '/404', component: () => import('@/views/error-page/404') }
 ]
 // 点击登录时将路由动态添加到路由中，根据用户权限显示不同的路由
@@ -91,13 +96,13 @@ export const aysncRouter = [
     meta: { title: '考试管理', roles: ['admin'], icon: 'iconlzt icon-lzt-kaoshi' },
     redirect: '/examList',
     children: [
-      { path: '/examList', name: 'examList', meta: { title: '考试列表', icon: 'iconlzt icon-lzt-kaoshi' }, component: () => import('@/views/backend/exam/ExamList') },
+      { path: '/examList', name: 'examList', meta: { title: '试卷库', icon: 'iconlzt icon-lzt-kaoshi' }, component: () => import('@/views/backend/exam/ExamList') },
     ]
   },
   {
     path: '/stuexam',
     component: Layout,
-    meta: { title: '考试', roles: ['testin'], icon: 'iconlzt icon-lzt-kaoshi' },
+    meta: { title: '考试', roles: ['student'], icon: 'iconlzt icon-lzt-kaoshi' },
     redirect: '/stuExams',
     children: [
       { path: '/stuExams', name: 'stuExams', meta: { title: '试卷列表', icon: 'iconlzt icon-lzt-kaoshi' }, component: () => import('@/views/studentsend/exam/StuExams') },
@@ -106,7 +111,7 @@ export const aysncRouter = [
   {
     path: '/stucourse',
     component: Layout,
-    meta: { title: '课程', roles: ['testin'], icon: 'iconlzt icon-lzt-kechengguanli' },
+    meta: { title: '课程', roles: ['student'], icon: 'iconlzt icon-lzt-kechengguanli' },
     redirect: '/stucourse',
     children: [
       { path: '/stucourse', name: 'stucourses', meta: { title: '我的课程', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/studentsend/course/StuCourse') },

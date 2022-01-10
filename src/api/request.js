@@ -6,9 +6,10 @@ export function request(config) {
     const instance = axios.create({
         baseURL: "http://42.192.202.240:8087/tmocp/",
         timeout: 5000,
+        method:'POST'
     })
     instance.interceptors.request.use(config => {
-        config.data=qs.stringify(config.data)
+        config.data = qs.stringify(config.data)
         // let token = window.sessionStorage.getItem('token')
         // if (token === null) {
         //     return router.push('/login')

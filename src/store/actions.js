@@ -1,4 +1,5 @@
 import { aysncRouter } from '@/router/index'
+import { userInfo } from '@/api/user';
 export default {
     // 添加动态路由
     DYNAMICROUTER({ commit }, roles) {
@@ -13,5 +14,14 @@ export default {
         }
         commit('DYNAMICROUTER', newRoutes)
         commit('SET_Roles', roles)
+    },
+    // 拿到token，并发送请求获取用户数据
+    async SET_TOKEN({ commit }, token) {
+        let {data} = await userInfo({ token })
+        commit('SET_TOKEN', token)
+        commit('SET_USERINFO', data[0])
+    },
+    SET_EXAMINFO({commit},examInfo){
+        commit('SET_EXAMINFO',examInfo)
     }
 }

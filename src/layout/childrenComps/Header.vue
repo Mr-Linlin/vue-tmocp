@@ -15,8 +15,9 @@
     <div class="header-tool">
       <el-dropdown :hide-on-click="false">
         <span class="el-dropdown-link">
-          <img src="~@/assets/img/common/avtavar.jpg" alt="" class="avatar" />
-          admin<i class="el-icon-arrow-down el-icon--right"></i>
+          <img :src="userInfo.photoimgurl" alt="" class="avatar" />
+          {{ userInfo.realname }}
+          <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
@@ -39,6 +40,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Header",
   inject: ["reload"], //注入刷新方法
@@ -64,6 +66,9 @@ export default {
       this.$router.push("/index");
       this.reload();
     },
+  },
+  computed: {
+    ...mapGetters(["userInfo"]),
   },
 };
 </script>

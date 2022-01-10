@@ -11,7 +11,7 @@
         <el-main class="content-main">
           <!-- 选项卡 -->
           <lzt-tabs class="tabs" />
-          <keep-alive :exclude="['StudyVideo']">
+          <keep-alive :exclude="['StudyVideo','ExamInfo']">
             <router-view />
           </keep-alive>
         </el-main>

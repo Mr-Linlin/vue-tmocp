@@ -20,6 +20,8 @@ export default new Vuex.Store({
     asyncRoutes: [],//用来存放静态路由加动态路由
     isLoginActive: false,//判断登录状态
     roles: '',//保存角色
+    userInfo:{},//保存个人信息
+    examInfo:{},//试卷的详细信息
   },
   mutations: mutations,
   actions: actions,

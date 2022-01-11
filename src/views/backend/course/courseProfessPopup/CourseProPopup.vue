@@ -47,7 +47,7 @@
   </el-dialog>
 </template>
 <script>
-import { editproinfo, addproinfo } from "@/api/course";
+import { editproinfo, addproinfo } from "@/api/courseProfessional";
 export default {
   name: "CourseListPopup",
   inject: ["reload"],
@@ -83,8 +83,6 @@ export default {
         coursemajorfjid: "", //课程专业父级id
         weight: "", //权重
         majorprice: "", //专业价格
-     
-      
       },
       dialogVisible: this.visible,
       // 是否是修改还是添加

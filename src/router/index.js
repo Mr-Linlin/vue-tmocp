@@ -22,12 +22,20 @@ const routes = [{
             meta: { title: '后台首页' },
             redirect: '/welcome',
             children: [{
-                path: '/welcome',
-                name: "home",
-                meta: { title: 'Dashboard', icon: 'el-icon-s-home' },
-                component: () =>
-                    import ('@/views/backend/home/Welcome')
-            }, ]
+                    path: '/welcome',
+                    name: "home",
+                    meta: { title: 'Dashboard', icon: 'el-icon-s-home' },
+                    component: () =>
+                        import ('@/views/backend/home/Welcome')
+                },
+                {
+                    path: '/editcourse',
+                    name: 'editcourse',
+                    meta: { title: '课程', icon: 'iconlzt icon-lzt-kechengguanli' },
+                    component: () =>
+                        import ('@/views/backend/course/EditCourse')
+                },
+            ]
         },
         {
             path: '/index',
@@ -97,14 +105,6 @@ export const aysncRouter = [{
                 component: () =>
                     import ('@/views/backend/course/CourseList')
             },
-            {
-                path: '/editcourse',
-                name: 'editcourse',
-                meta: { title: '课程', icon: 'iconlzt icon-lzt-kechengguanli' },
-                component: () =>
-                    import ('@/views/backend/course/EditCourse')
-            },
-
             {
                 path: '/courseProfessional',
                 name: 'courseProfessional',

@@ -222,18 +222,15 @@ export default {
           return false;
         }
       });
-      // console.log('登录了');
-      // let roles = "testin";
-      // let token = "lztzwj";
-      // this.$store.dispatch("DYNAMICROUTER", roles);
-      // this.$store.commit("SET_TOKEN", token);
-      // this.$router.push("/");
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
+.home{
+  overflow-x: hidden;
+}
 .top-header {
   position: relative;
   height: 70px;
@@ -467,7 +464,7 @@ export default {
   }
 }
 .footer {
-  position: fixed;
+  position: relative;
   bottom: 0;
   left: 0;
   right: 0;
@@ -478,4 +475,5 @@ export default {
   line-height: 60px;
   font-size: 14px;
 }
+/*修改滚动条样式*/
 </style>

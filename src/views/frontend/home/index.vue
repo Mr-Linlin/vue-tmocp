@@ -245,7 +245,7 @@ export default {
         font-size: 14px;
         padding: 0 20px;
         border-radius: 2px;
-        margin-left: 10px;
+        margin-left: 11px;
       }
       .resigter-btn {
         background: rgb(241, 16, 18);

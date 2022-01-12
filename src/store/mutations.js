@@ -5,18 +5,24 @@ export default {
         let obj = {}
         // 查询是否存在tags，如果存在就将tagslist覆盖，否则存在会话里面的就会被重新清空
         let tags = JSON.parse(sessionStorage.getItem('tags'))
+        let menus = JSON.parse(localStorage.getItem('menus'))
+
         if (tags) {
             state.tags = tags
         }
-        // 如果返回结果为-1则是tags里面没有，再进行添加
-        let result = state.tags.findIndex(item => item.name === tag.name)
-        if (result == -1) {
-            obj.path = tag.path
-            obj.name = tag.name
-            obj.icon = tag.meta.icon
-            obj.title = tag.meta.title
-            state.tags.push(obj)
-            sessionStorage.setItem('tags', JSON.stringify(state.tags))
+        // 判断选项卡是否为左侧菜单栏中的路由，如果不等于-1，那就是存在则添加到tags中，否则就不添加
+        let m = menus.findIndex(item => item.path === tag.path)
+        if (m !== -1) {
+            // 如果返回结果为-1则是tags里面没有，再进行添加
+            let result = state.tags.findIndex(item => item.name === tag.name)
+            if (result == -1) {
+                obj.path = tag.path
+                obj.name = tag.name
+                obj.icon = tag.meta.icon
+                obj.title = tag.meta.title
+                state.tags.push(obj)
+                sessionStorage.setItem('tags', JSON.stringify(state.tags))
+            }
         }
     },
     // 删除选项卡
@@ -80,8 +86,8 @@ export default {
         sessionStorage.setItem('userInfo', JSON.stringify(state.userInfo))
     },
     // 保存试卷信息
-    SET_EXAMINFO(state,examInfo){
-        state.examInfo=examInfo
-        sessionStorage.setItem('examInfo',JSON.stringify(state.examInfo))
+    SET_EXAMINFO(state, examInfo) {
+        state.examInfo = examInfo
+        sessionStorage.setItem('examInfo', JSON.stringify(state.examInfo))
     }
 }

@@ -51,7 +51,7 @@
                 placeholder="请输入验证码"
               >
               </el-input>
-              <div class="verify-img">验证码</div>
+              <valid-code width="100px" height="40px" ref="code" />
             </div>
           </el-form-item>
           <el-form-item style="margin-bottom: 10px">
@@ -126,10 +126,12 @@
 <script>
 import Board from "./childrenComps/Board";
 import { loginInfo } from "@/api/user";
+import ValidCode from "@/components/common/validCode/ValidCode";
 export default {
   name: "Index",
   components: {
     Board,
+    ValidCode,
   },
   data() {
     var validateUsername = (rule, value, callback) => {
@@ -147,8 +149,8 @@ export default {
       }
     };
     var validateVerifycode = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("请输入验证码！!"));
+      if (!value || value != this.code) {
+        return callback(new Error("请输入正确的验证码！!"));
       } else {
         callback();
       }
@@ -198,7 +200,11 @@ export default {
         1: "admin",
         2: "student",
       },
+      code: "",
     };
+  },
+  mounted() {
+    this.code = this.$refs.code.code.join("");
   },
   methods: {
     // 点击进行登录
@@ -228,7 +234,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.home{
+.home {
   overflow-x: hidden;
 }
 .top-header {

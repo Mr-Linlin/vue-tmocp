@@ -9,7 +9,7 @@
           <span>{{ title.more }}<i class="el-icon-d-arrow-right"></i></span>
         </div>
       </div>
-      <div class="board-content">
+      <div class="board-content" ref="scroll">
         <div class="new-item" v-for="(item, index) in newinfos" :key="index">
           <div class="newtitle">{{ item.newtitle }}</div>
           <div class="newvicetitle">{{ item.newvicetitle }}</div>
@@ -23,10 +23,27 @@
 <script>
 export default {
   name: "Board",
-  mounted() {},
+  data() {
+    return {
+      timer: null,
+      time: 2000,
+      num: 0,
+    };
+  },
+  created() {
+    // 开启定时器
+    // this.timer = setInterval(this.getScroll, this.time);
+  },
   props: {
     title: { type: Object },
     newinfos: { type: Array },
+  },
+  methods: {
+    // 无缝滚动
+    getScroll() {
+      
+      // console.log(this.num++);
+    },
   },
 };
 </script>

@@ -22,6 +22,7 @@ export default new Vuex.Store({
     roles: '',//保存角色
     userInfo:{},//保存个人信息
     examInfo:{},//试卷的详细信息
+    token:''
   },
   mutations: mutations,
   actions: actions,

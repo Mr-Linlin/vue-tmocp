@@ -29,5 +29,23 @@ export const routes = [
         name: 'examInfo',
         component: () => import('@/views/studentsend/exam/childrenComps/ExamInfo'),
     },
+    {
+        path: "/homeView",
+        name: "homeView",
+        meta: { title: '课程中心' },
+        component: () => import('@/views/frontend/home/childrenComps/HomeView')
+    },
+    {
+        path: "/courseDetailedInfo",
+        name: "courseDetailedInfo",
+        meta: { title: '课程详情' },
+        component: () => import('@/views/frontend/home/childrenComps/CourseDetailedInfo')
+    },
+    {
+        path: "/myInfo",
+        name: "myInfo",
+        meta: { title: '个人中心' },
+        component: () => import('@/views/frontend/home/childrenComps/MyInfo')
+    },
     // { path: '/404', component: () => import('@/views/error-page/404') }
 ]

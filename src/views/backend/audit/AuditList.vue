@@ -1,42 +1,30 @@
 <template>
-  <div class="order-list">
+  <div class="audit-list">
     <el-card>
-      <el-table :data="orderList" border class="tableBox">
+      <el-table :data="auditList" border class="tableBox">
         <el-table-column label="序号" type="index" width="70">
         </el-table-column>
         <el-table-column
-          label="所属专业ID"
-          prop="coursmajoreid"
+          label="课程ID"
+          prop="cid"
           :show-overflow-tooltip="true"
         >
         </el-table-column>
         <el-table-column
-          label="所属用户ID"
-          prop="userid"
+          label="用户ID"
+          prop="uid"
           :show-overflow-tooltip="true"
         >
         </el-table-column>
         <el-table-column
-          label="订单号"
-          prop="courseordernum"
+          label="审核状态"
+          prop="isadopt"
           :show-overflow-tooltip="true"
         >
         </el-table-column>
         <el-table-column
-          label="支付类型"
-          prop="paytype"
-          :show-overflow-tooltip="true"
-        >
-        </el-table-column>
-        <el-table-column
-          label="订单二维码"
-          prop="orderqrcodeurl"
-          :show-overflow-tooltip="true"
-        >
-        </el-table-column>
-        <el-table-column
-          label="支付状态"
-          prop="orderstate"
+          label="注册文件"
+          prop="signupfile"
           :show-overflow-tooltip="true"
         >
         </el-table-column>
@@ -66,35 +54,35 @@
 </template>
 
 <script>
-import { getUserList,Delete } from "@/api/user";
+import { getUserList, Delete } from "@/api/user";
 export default {
-  name: "OrderList",
-  inject:['reload'],
+  name: "AuditList",
+  inject: ["reload"],
   data() {
     return {
-      orderList: [],
+      auditList: [],
       queryInfo: {
-        table: "tm_ocp_order",
+        table: "tm_ocp_signup",
       },
     };
   },
   created() {
-    this.getOrderList(this.queryInfo);
+    this.getAuditList(this.queryInfo);
   },
   methods: {
     /**
      * 处理网络请求
      */
-    async getOrderList(query) {
+    async getAuditList(query) {
       let { code, data } = await getUserList(query);
       if (code !== 200) return this.$message.error("获取失败！");
-      this.orderList = data;
-      // console.log(data);
+      this.auditList = data;
+      //   console.log(data);
     },
     // 根据id删除
     async deleteClick(id) {
       let table = {
-        table: "tm_ocp_order",
+        table: "tm_ocp_signup",
         deletekey: "id",
         deletearray: JSON.stringify([id]),
       };
@@ -107,5 +95,5 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scopde>
 </style>

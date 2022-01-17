@@ -11,10 +11,8 @@ export default {
             state.tags = tags
         }
         // 判断选项卡是否为左侧菜单栏中的路由，如果不等于-1，那就是存在则添加到tags中，否则就不添加
-        // let m = menus.findIndex(item => item.redirect === tag.path)
         for (const item of menus) {
         let m = item.children.findIndex(item => item.path === tag.path)
-        // console.log(m);
             if(m!==-1){
                 let result = state.tags.findIndex(item => item.name === tag.name)
                 if (result == -1) {
@@ -27,18 +25,6 @@ export default {
                 }
             }
         }
-        // if (m !== -1) {
-        //     // 如果返回结果为-1则是tags里面没有，再进行添加
-        //     let result = state.tags.findIndex(item => item.name === tag.name)
-        //     if (result == -1) {
-        //         obj.path = tag.path
-        //         obj.name = tag.name
-        //         obj.icon = tag.meta.icon
-        //         obj.title = tag.meta.title
-        //         state.tags.push(obj)
-        //         sessionStorage.setItem('tags', JSON.stringify(state.tags))
-        //     }
-        // }
     },
     // 删除选项卡
     DELETETAG(state, tag) {
@@ -93,7 +79,8 @@ export default {
     },
     // 将token保存到会话中
     SET_TOKEN(state, token) {
-        sessionStorage.setItem('token', token)
+        state.token=token
+        sessionStorage.setItem('token',  state.token)
     },
     // 保存用户信息
     SET_USERINFO(state, user) {

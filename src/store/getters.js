@@ -52,4 +52,13 @@ export default {
         }
         return state.examInfo
     },
+    // 获取token
+    token:state=>{
+        let token =sessionStorage.getItem('token')
+        if(state.token!==''){
+            return state.token
+        }else if(token){
+            return token
+        }
+    }
 }

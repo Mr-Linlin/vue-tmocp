@@ -351,7 +351,7 @@ export default {
     },
     // 倒计时
     countdown() {
-      let time = this.examInfo.papertime * 60;
+      let time = this.examInfo.papertime * 60; 
       setInterval(() => {
         if (time > 0) {
           time--;
@@ -415,7 +415,6 @@ export default {
   },
   watch: {
     // "answer.radioAnswer": {
-    //   deep: true,
     //   handler(val) {
     //     console.log(val);
     //   },

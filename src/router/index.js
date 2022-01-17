@@ -70,6 +70,15 @@ export const aysncRouter = [
     ]
   },
   {
+    path: '/audit',
+    component: Layout,
+    meta: { title: '审核管理', roles: ['admin'], icon: 'iconlzt icon-lzt-kaoshi' },
+    redirect: '/auditList',
+    children: [
+      { path: '/auditList', name: 'auditList', meta: { title: '审核列表', icon: 'iconlzt icon-lzt-kaoshi' }, component: () => import('@/views/backend/audit/AuditList') },
+    ]
+  },
+  {
     path: '/stuExams',
     component: Layout,
     meta: { title: '考试', roles: ['student'], icon: 'iconlzt icon-lzt-kaoshi' },
@@ -85,8 +94,9 @@ export const aysncRouter = [
     redirect: '/stucourse',
     children: [
       { path: '/stucourse', name: 'stucourses', meta: { title: '我的课程', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/studentsend/course/StuCourse') },
+      { path: '/stuChatpRecord', name: 'stuChatpRecord', meta: { title: '章节记录', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/studentsend/course/StuChatpRecord') },
     ]
-  },
+  }
 ]
 const router = new VueRouter({
   mode: 'history',

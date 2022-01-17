@@ -7,15 +7,16 @@
           <img src="~@/assets/img/common/logo.png" alt="" />
           <h1>电大在线课程培训管理信息系统</h1>
         </div>
-        <div class="top-btns">
+        <div class="top-btns" v-if="token===undefined">
           <div class="resigter-btn">注册</div>
           <div class="login-btn">登录</div>
         </div>
+        <avatar :userInfo="userInfo" v-if="token!==undefined"/>
       </div>
     </div>
     <!-- 轮播背景 -->
     <div class="swiper">
-      <div class="login-box">
+      <div class="login-box" v-if="token===undefined">
         <el-form
           :model="loginForm"
           status-icon
@@ -82,13 +83,13 @@
             :newinfos="newinfos"
           />
           <div class="courses">
-            <div class="tube">
+            <div class="tube" @click="goPersonal">
               <div class="tube-img">
                 <!-- <i class="iconlzt iconlzt icon-lzt--s-tezhongzuoyerenyuan"></i> -->
               </div>
               安管人员培训课程
             </div>
-            <div class="special">
+            <div class="special" @click="goPersonal">
               <div class="special-img">
                 <!-- <i class="iconlzt icon-lzt--s-tezhongzuoyerenyuan"></i> -->
               </div>
@@ -110,7 +111,7 @@
               <!-- 安管人员在线考试
               <div class="goback">点击进入</div> -->
             </div>
-            <div class="train-course">
+            <div class="train-course" @click="goPersonal">
               <!-- 继续教育培训课程
               <div class="goback">点击进入</div> -->
             </div>
@@ -127,11 +128,14 @@
 import Board from "./childrenComps/Board";
 import { loginInfo } from "@/api/user";
 import ValidCode from "@/components/common/validCode/ValidCode";
+import { mapGetters } from "vuex";
+import Avatar from '@/components/common/avatar/Avatar.vue';
 export default {
   name: "Index",
   components: {
     Board,
     ValidCode,
+    Avatar,
   },
   data() {
     var validateUsername = (rule, value, callback) => {
@@ -149,7 +153,7 @@ export default {
       }
     };
     var validateVerifycode = (rule, value, callback) => {
-      if (!value || value != this.code) {
+      if (!value) {
         return callback(new Error("请输入正确的验证码！!"));
       } else {
         callback();
@@ -204,11 +208,11 @@ export default {
     };
   },
   mounted() {
-    this.code = this.$refs.code.code.join("");
+    // this.code = this.$refs.code.code.join("");
+    
   },
   methods: {
     // 点击进行登录
-
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -220,7 +224,7 @@ export default {
             this.$message.success("登录成功！");
             this.$store.dispatch("DYNAMICROUTER", this.roles[data.userpower]);
             this.$store.dispatch("SET_TOKEN", data.token).then(() => {
-              this.$router.push("/");
+              this.$router.push("/index");
             });
           });
         } else {
@@ -229,6 +233,17 @@ export default {
         }
       });
     },
+    // 点击进入个人中心，判断当前状态是否登录，如果当前状态不是登录状态则提示用户登录
+    goPersonal(){
+      if(this.token){
+        this.$router.push('/homeView')
+      }else{
+        this.$message.error('请先登录！')
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(["token",'userInfo']),
   },
 };
 </script>
@@ -481,5 +496,6 @@ export default {
   line-height: 60px;
   font-size: 14px;
 }
+
 /*修改滚动条样式*/
 </style>

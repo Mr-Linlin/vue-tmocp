@@ -1,5 +1,5 @@
 import { request } from "./request";
-import { QUERY, LOGIN, USERINFO, EXAMINFO, DELETE, UPLOADIMG, ADD, UPDATE } from '@/utils/tmController'
+import { QUERY, LOGIN, USERINFO, EXAMINFO, DELETE, UPLOADIMG, ADD, UPDATE, STUDYRECORD } from '@/utils/tmController'
 // 获取用户数据列表
 export const getUserList = table => request({ url: QUERY, data: table })
 // 登录
@@ -16,3 +16,5 @@ export const upload = from => request({ url: UPLOADIMG, data: from })
 export const Delete = table => request({ url: DELETE, data: table })
 // 修改
 export const Updata = table => request({ url: UPDATE, data: table })
+// 生成课程学习记录
+export const StudyRecoed = table => request({ url: STUDYRECORD, data: table })

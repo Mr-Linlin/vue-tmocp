@@ -7,3 +7,4 @@ export const UPLOADIMG = 'SevenCattleCloudPictureUpload'//上次图片接口
 export const USERINFO = 'TM_ocp_atoTokengetUserInfo'//根据token拿到用户信息
 export const EXAMINFO = 'TM_ocp_atopaperidgetrandomInfo'//根据试题类型与试卷类型 获取随即试卷信息
 export const RECORDINFO = 'TM_ocp_setUpStudyrecordInfo'//模拟支付成功回调生成课程信息以及章节信息
+export const STUDYRECORD = 'TM_ocp_replaceStudyrecord' //生成课程学习记录

@@ -7,16 +7,16 @@
           <img src="~@/assets/img/common/logo.png" alt="" />
           <h1>电大在线课程培训管理信息系统</h1>
         </div>
-        <div class="top-btns" v-if="token===undefined">
+        <div class="top-btns" v-if="token === undefined">
           <div class="resigter-btn">注册</div>
           <div class="login-btn">登录</div>
         </div>
-        <avatar :userInfo="userInfo" v-if="token!==undefined"/>
+        <avatar :userInfo="userInfo" v-if="token !== undefined" />
       </div>
     </div>
     <!-- 轮播背景 -->
     <div class="swiper">
-      <div class="login-box" v-if="token===undefined">
+      <div class="login-box" v-if="token === undefined">
         <el-form
           :model="loginForm"
           status-icon
@@ -80,7 +80,7 @@
               icon: 'iconlzt icon-lzt-dingdanguanli',
               more: '更多',
             }"
-            :newinfos="newinfos"
+            :newinfos="newDynamic"
           />
           <div class="courses">
             <div class="tube" @click="goPersonal">
@@ -104,9 +104,9 @@
               icon: 'iconlzt icon-lzt-tongzhi',
               more: '更多',
             }"
-            :newinfos="newinfos"
+            :newinfos="newtabs"
           />
-          <div class="examtion">
+          <div class="examtion" @click="goExam">
             <div class="ann-tube">
               <!-- 安管人员在线考试
               <div class="goback">点击进入</div> -->
@@ -126,10 +126,10 @@
 
 <script>
 import Board from "./childrenComps/Board";
-import { loginInfo } from "@/api/user";
+import { loginInfo, getDataList } from "@/api/common";
 import ValidCode from "@/components/common/validCode/ValidCode";
 import { mapGetters } from "vuex";
-import Avatar from '@/components/common/avatar/Avatar.vue';
+import Avatar from "@/components/common/avatar/Avatar.vue";
 export default {
   name: "Index",
   components: {
@@ -164,6 +164,7 @@ export default {
         accountnumber: "st8910",
         password: "st0001",
         verifycode: "",
+        news: [],
       },
       rules: {
         password: [{ validator: validatePass, trigger: "blur" }],
@@ -205,11 +206,18 @@ export default {
         2: "student",
       },
       code: "",
+      queryInfo: {
+        table: "tm_ocp_newinfo",
+      },
+      newtabs: [], //通知公告
+      newDynamic: [], //工作动态
     };
+  },
+  created() {
+    this.getNews(this.queryInfo);
   },
   mounted() {
     // this.code = this.$refs.code.code.join("");
-    
   },
   methods: {
     // 点击进行登录
@@ -234,16 +242,31 @@ export default {
       });
     },
     // 点击进入个人中心，判断当前状态是否登录，如果当前状态不是登录状态则提示用户登录
-    goPersonal(){
-      if(this.token){
-        this.$router.push('/homeView')
-      }else{
-        this.$message.error('请先登录！')
+    goPersonal() {
+      if (this.token) {
+        this.$router.push("/homeView");
+      } else {
+        this.$message.error("请先登录！");
       }
-    }
+    },
+    // 进入考试系统
+    goExam(){
+      this.$router.push('/')
+    },
+    // 获取新闻列表
+    async getNews(table) {
+      let {data} = await getDataList(table);
+      for (const item of data) {
+        if (item.newtab === "1" && item.newstart==='1') {
+          this.newDynamic.push(item);
+        } else if (item.newtab === "2" && item.newstart==='1') {
+          this.newtabs.push(item);
+        }
+      }
+    },
   },
   computed: {
-    ...mapGetters(["token",'userInfo']),
+    ...mapGetters(["token", "userInfo"]),
   },
 };
 </script>

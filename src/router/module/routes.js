@@ -15,6 +15,7 @@ export const routes = [
         children: [
             { path: '/welcome', name: "home", meta: { title: 'Dashboard', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/home/Welcome') },
             { path: '/studyVideo', name: "studyVideo", meta: { title: '观看视频', icon: 'el-icon-s-home' }, component: () => import('@/views/studentsend/course/childComps/StudyVideo') },
+            // { path: '/editCourse', name: "editCourse", meta: { title: '课程详情', icon: 'el-icon-s-home' }, component: () => import('@/views/backend/course/EditCourse') },
         ]
     },
     {

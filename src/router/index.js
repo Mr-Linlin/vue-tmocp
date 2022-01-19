@@ -55,9 +55,9 @@ export const aysncRouter = [
     path: '/news',
     component: Layout,
     meta: { title: '公告管理', roles: ['admin'], icon: 'iconlzt icon-lzt-kechengguanli' },
-    redirect: '/courseList',
+    redirect: '/newsBoard',
     children: [
-      { path: '/courseList', name: 'courseList', meta: { title: '课程', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/backend/course/CourseList') },
+      { path: '/newsBoard', name: 'newsBoard', meta: { title: '新闻列表', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/backend/news/NewsBoard') },
     ]
   },
   {

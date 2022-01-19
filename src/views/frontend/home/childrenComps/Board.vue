@@ -9,12 +9,53 @@
           <span>{{ title.more }}<i class="el-icon-d-arrow-right"></i></span>
         </div>
       </div>
-      <div class="board-content" ref="scroll">
-        <div class="new-item" v-for="(item, index) in newinfos" :key="index">
-          <div class="newtitle">{{ item.newtitle }}</div>
-          <div class="newvicetitle">{{ item.newvicetitle }}</div>
-          <div class="time">{{ item.releasetime }}</div>
-        </div>
+      <div class="board-scroll" :style="{ height: height * lineNum + 'px' }">
+        <ul
+          class="board-content"
+          :style="{ transform: transform }"
+          :class="{ rollScreen: num === 0 }"
+        >
+          <li
+            class="new-item"
+            v-for="(item, index) in newinfos"
+            :key="index + 'news'"
+            :style="{ height: height + 'px', 'line-height': height + 'px' }"
+          >
+            <div class="newtitle">{{ item.newtitle }}</div>
+            <div class="newvicetitle">{{ item.newvicetitle }}</div>
+            <div class="time">{{ item.releasetime }}</div>
+          </li>
+          <li
+            class="new-item"
+            v-for="(item, index) in newinfos"
+            :key="index + newinfos.length"
+            :style="{ height: height + 'px', 'line-height': height + 'px' }"
+          >
+            <div class="newtitle">{{ item.newtitle }}</div>
+            <div class="newvicetitle">{{ item.newvicetitle }}</div>
+            <div class="time">{{ item.releasetime }}</div>
+          </li>
+          <li
+            class="new-item"
+            v-for="(item, index) in newinfos"
+            :key="index + newinfos.length+'l'"
+            :style="{ height: height + 'px', 'line-height': height + 'px' }"
+          >
+            <div class="newtitle">{{ item.newtitle }}</div>
+            <div class="newvicetitle">{{ item.newvicetitle }}</div>
+            <div class="time">{{ item.releasetime }}</div>
+          </li>
+           <li
+            class="new-item"
+            v-for="(item, index) in newinfos"
+            :key="index + newinfos.length+'t'"
+            :style="{ height: height + 'px', 'line-height': height + 'px' }"
+          >
+            <div class="newtitle">{{ item.newtitle }}</div>
+            <div class="newvicetitle">{{ item.newvicetitle }}</div>
+            <div class="time">{{ item.releasetime }}</div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -30,19 +71,32 @@ export default {
       num: 0,
     };
   },
-  created() {
-    // 开启定时器
-    // this.timer = setInterval(this.getScroll, this.time);
+  created() {},
+  mounted() {
+    this.getScroll();
   },
   props: {
     title: { type: Object },
     newinfos: { type: Array },
+    height: { type: Number, default: 48 },
+    lineNum: { type: Number, default: 4 },
   },
   methods: {
     // 无缝滚动
     getScroll() {
-      
-      // console.log(this.num++);
+      this.timer = setInterval(() => {
+        if (this.num !== this.newinfos.length) {
+          this.num++;
+        } else {
+          this.num = 0;
+        }
+      }, 3000);
+    },
+  },
+  computed: {
+    // 计算每次滚动高度
+    transform() {
+      return "translateY(-" + this.num * this.height + "px)";
     },
   },
 };
@@ -82,36 +136,41 @@ export default {
     color: rgb(241, 16, 18);
   }
 }
-.board-content {
-  height: 210px;
-  .new-item {
-    display: flex;
-    justify-content: space-between;
-    width: 568px;
-    height: 40px;
-    line-height: 40px;
-    border-bottom: 1px solid #ccc;
-    padding: 0 15px;
-    cursor: pointer;
-    .newtitle,
-    .newvicetitle {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .newtitle {
-      width: 120px;
-    }
-    .newvicetitle {
-      flex: 1;
-    }
+.board-scroll {
+  // height: 210px;
+  overflow: hidden;
+  .board-content {
+    transition: 0.5s linear;
+    .new-item {
+      display: flex;
+      justify-content: space-between;
+      width: 568px;
+      border-bottom: 1px solid #ccc;
+      padding: 0 15px;
+      cursor: pointer;
+      .newtitle,
+      .newvicetitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .newtitle {
+        width: 120px;
+      }
+      .newvicetitle {
+        flex: 1;
+      }
 
-    .time {
-      width: 120px;
+      .time {
+        width: 120px;
+      }
+    }
+    .new-item:hover {
+      background: rgba(#ccc, 0.5);
     }
   }
-  .new-item:hover {
-    background: rgba(#ccc, 0.5);
-  }
+}
+.rollScreen {
+  transition: none;
 }
 </style>

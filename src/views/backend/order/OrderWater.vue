@@ -1,91 +1,129 @@
 <template>
-  <div class="order-water">
-    <div
-      :style="{ height: height * lineNum + 'px' }"
-      class="rollScreen_container"
-      id="rollScreen_container"
+  <el-card>
+    <!--      搜索与添加区域-->
+    <el-row :gutter="20" class="row">
+      <el-col :span="8">
+        <el-input
+          @keyup.enter.native="query"
+          @clear="clear"
+          placeholder="请输入支付流水号"
+          v-model="queryInfo.payserialnumber"
+          clearable
+        >
+          <el-button slot="append" icon="el-icon-search" @click="query"
+            >搜索</el-button
+          >
+        </el-input>
+      </el-col>
+    </el-row>
+    <el-table
+      :data="orderwater"
+      border
+      stripe
+      :cell-style="{ textAlign: 'center' }"
+      :header-cell-style="{ textAlign: 'center' }"
+      style="width: 100%;margin-bottom:20px"
     >
-      <ul
-        class="rollScreen_list"
-        :style="{ transform: transform }"
-        :class="{ rollScreen_list_unanim: num === 0 }"
-      >
-        <li
-          class="rollScreen_once"
-          v-for="(item, index) in contentArr"
-          :key="index"
-          :style="{ height: height + 'px' }"
-        >
-          <span>{{ item }}</span>
-        </li>
-        <li
-          class="rollScreen_once"
-          v-for="(item, index) in contentArr"
-          :key="index + contentArr.length"
-          :style="{ height: height + 'px' }"
-        >
-          <span>{{ item }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <el-table-column type="index" label="#"></el-table-column>
+      <el-table-column prop="majorordernum" label="订单编号" :show-overflow-tooltip="true"> </el-table-column>
+      <el-table-column prop="payserialnumber" label="支付流水号" :show-overflow-tooltip="true">
+      </el-table-column>
+      <el-table-column prop="transactiontype" label="交易类型" :show-overflow-tooltip="true">
+      </el-table-column>
+
+      <el-table-column prop="paytype" label="支付方式" :show-overflow-tooltip="true"> </el-table-column>
+      <el-table-column prop="parametermsg" label="通知参数" :show-overflow-tooltip="true"> </el-table-column>
+
+      <!-- 状态 -->
+      <el-table-column prop="transactionstate" label="交易状态" width="140">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.transactionstate === '1'">交易成功</el-tag>
+          <el-tag type="warning" v-else>交易关闭</el-tag>
+        </template>
+      </el-table-column>
+    </el-table>
+       <!--      分页-->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="queryInfo.page"
+      :page-sizes="[3, 7, 15, 20]"
+      :page-size="queryInfo.limit"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+      backgroundf
+    >
+    </el-pagination>
+  </el-card>
 </template>
 
 <script>
+import { getDataList } from "@/api/common";
 export default {
   name: "OrderWater",
-  props: {
-    height: {
-      default: 40,
-      type: Number,
-    },
-    lineNum: {
-      default: 5,
-      type: Number,
-    },
-  },
-  data: function () {
+  inject: ["reload"],
+  data() {
     return {
-      contentArr: [
-        "内容1",
-        "内容2",
-        "内容3",
-        "内容4",
-        "内容5",
-        "内容6",
-        "内容7",
-      ],
-      num: 0,
+      orderwater: [],
+      total: 0,
+      queryInfo: {
+        table: "tm_ocp_paytran",
+        payserialnumber: "",
+        page: 1,
+        paging: true,
+        limit: 3,
+        orderarray: JSON.stringify([
+          {
+            id: "ASC",
+          },
+        ]),
+      },
     };
   },
-  computed: {
-    transform: function () {
-      return "translateY(-" + this.num * this.height + "px)";
-    },
+  created() {
+    this.getOrderList(this.queryInfo);
   },
-  created: function () {
-    let _this = this;
-    setInterval(function () {
-      if (_this.num !== _this.contentArr.length) {
-        _this.num++;
-      } else {
-        _this.num = 0;
-      }
-    }, 3000);
+  methods: {
+    // 获取所有课程数据
+    async getOrderList(table) {
+      let { data,count } = await getDataList(table);
+      console.log(data);
+      this.orderwater = data;
+      this.total = count
+    },
+    // 查询
+    async query() {
+      console.log(111);
+      this.queryInfo.inmap = JSON.stringify({
+        payserialnumber: this.queryInfo.payserialnumber,
+      });
+      let { data,count } = await getDataList(this.queryInfo);
+      console.log(data);
+      this.orderwater = data;
+      this.total = count
+    },
+    clear() {
+      this.queryInfo.inmap = "";
+      this.getOrderList(this.queryInfo);
+      this.reload();
+    },
+      //条数
+    handleSizeChange(newSize){
+      this.queryInfo.limit = newSize
+      this.getOrderList(this.queryInfo)
+    },
+    //页码
+    handleCurrentChange(newPage){
+      this.queryInfo.page = newPage
+      this.getOrderList(this.queryInfo)
+    }
   },
 };
 </script>
 
-<style scoped>
-  .rollScreen_container{
-    display: inline-block;
-    position:relative;
-    overflow: hidden;
-  }
-  .rollScreen_list{
-    transition: 1s linear;
-  }
-  .rollScreen_list_unanim{
-    transition: none
-  }
+
+<style lang="less" scoped>
+.row {
+  margin-bottom: 20px;
+}
 </style>

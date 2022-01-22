@@ -108,7 +108,7 @@
             </div>
             <!-- 选项 -->
             <div class="exam-options">
-              <el-checkbox-group v-model="answer.checkedAnswer">
+              <el-checkbox-group v-model="answer.checkedAnswer[index]">
                 <div class="radio">
                   <el-checkbox :label="item.optiona"></el-checkbox>
                 </div>
@@ -257,7 +257,7 @@
 </template>
 
 <script>
-import { getExamTopic } from "@/api/user";
+import { getExamTopic, ExamInfo, CommitExam } from "@/api/common";
 import { mapGetters } from "vuex";
 export default {
   name: "ExamInfo",
@@ -270,6 +270,7 @@ export default {
       queryInfo: {
         papergroup: "",
         subjectpaper: "",
+        uid: "",
       },
       choice: {
         score: 0,
@@ -288,6 +289,7 @@ export default {
         total: 0,
       },
       show: false,
+      papernum: "", //试卷编号
       minues: "00",
       seconds: "00",
       scroll: 0,
@@ -302,7 +304,7 @@ export default {
   created() {
     this.queryInfo.papergroup = this.examInfo.papertype;
     this.queryInfo.subjectpaper = this.examInfo.paperquestionstype;
-    this.getExamTopic(this.queryInfo);
+    this.getRandomInfo(this.queryInfo);
   },
   mounted() {
     //   监听滚动条的位置
@@ -313,31 +315,37 @@ export default {
     /**
      * 处理网络请求
      */
-    async getExamTopic(query) {
+    async getRandomInfo(query) {
+      query.uid = this.userInfo.id;
+      let { data } = await getExamTopic(query);
+      this.papernum = data;
       let {
         code,
-        tmOcpChoicesubjectSet_singlechoice,
-        tmOcpChoicesubjectSet_multiplechoice,
-        tmOcpJudgesubjectSet,
-        tmOcpCasesubjectSet,
-      } = await getExamTopic(query);
+        singlechoicenum,
+        multiplechoicenum,
+        judgesubjectnum,
+        casesubjectnum,
+      } = await ExamInfo({ papernum: data });
       if (code !== 200) return this.$message.error("获取试卷信息失败！");
-      this.case_problem = tmOcpCasesubjectSet;
-      this.problem.score = tmOcpCasesubjectSet[0].subjectscore;
-      this.problem.total = tmOcpCasesubjectSet.length;
+      this.case_problem = casesubjectnum;
+      this.problem.score = casesubjectnum[0].subjectscore;
+      this.problem.total = casesubjectnum.length;
 
-      this.single_choice = tmOcpChoicesubjectSet_singlechoice;
-      this.choice.score = tmOcpChoicesubjectSet_singlechoice[0].subjectscore;
-      this.choice.total = tmOcpChoicesubjectSet_singlechoice.length;
+      this.single_choice = singlechoicenum;
+      this.choice.score = singlechoicenum[0].subjectscore;
+      this.choice.total = singlechoicenum.length;
 
-      this.questions = tmOcpJudgesubjectSet;
-      this.judge.score = tmOcpJudgesubjectSet[0].subjectscore;
-      this.judge.total = tmOcpJudgesubjectSet.length;
+      this.questions = judgesubjectnum;
+      this.judge.score = judgesubjectnum[0].subjectscore;
+      this.judge.total = judgesubjectnum.length;
 
-      this.multiple_choice = tmOcpChoicesubjectSet_multiplechoice;
-      this.multiple.score =
-        tmOcpChoicesubjectSet_multiplechoice[0].subjectscore;
-      this.multiple.total = tmOcpChoicesubjectSet_multiplechoice.length;
+      this.multiple_choice = multiplechoicenum;
+      this.multiple.score = multiplechoicenum[0].subjectscore;
+      this.multiple.total = multiplechoicenum.length;
+      for (let key in this.multiple_choice) {
+        //动态生成的el-checkbox-group的v-model绑定问题
+        this.$set(this.answer.checkedAnswer, key, []);
+      }
     },
     // 监听滚动条位置，当滚动到一定位置将答题卡变为固定定位
     handleScroll() {
@@ -351,7 +359,7 @@ export default {
     },
     // 倒计时
     countdown() {
-      let time = this.examInfo.papertime * 60; 
+      let time = this.examInfo.papertime * 60;
       setInterval(() => {
         if (time > 0) {
           time--;
@@ -380,6 +388,16 @@ export default {
         }
       }
     },
+    // 当选择多选题答案后改变答题卡的状态
+    setMultipleActive(answers, data) {
+      for (let key in this.multiple_choice) {
+        if (answers[key][0] !== undefined && answers[key][0] !== "") {
+          data[key].active = true;
+        } else {
+          data[key].active = false;
+        }
+      }
+    },
     // 点击提交试卷
     commitExam() {
       // 判断当前还有多少道题没有答完
@@ -404,14 +422,67 @@ export default {
         iconClass: "iconlzt icon-lzt-wenhao",
       })
         .then(() => {
-          // 对成绩进行打分
-          console.log(111);
+          // 拿到所有成绩提交到后台进行打分
+          let radioanswernew = [],
+            judgeanswernew = [],
+            multipleanswernew = [],
+            problemanswernew = [];
+          this.single_choice.forEach((item, index) => {
+            let answer = {
+              id: item.id,
+              answer:
+                this.answer.radioAnswer[index] != undefined
+                  ? this.answer.radioAnswer[index]
+                  : "",
+            };
+            radioanswernew.push(answer);
+          });
+          this.questions.forEach((item, index) => {
+            let answer = {
+              id: item.id,
+              answer:
+                this.answer.judgeAnswer[index] != undefined
+                  ? this.answer.judgeAnswer[index]
+                  : "",
+            };
+            judgeanswernew.push(answer);
+          });
+
+          this.case_problem.forEach((item, index) => {
+            let answer = {
+              id: item.id,
+              answer:
+                this.answer.problemAnswer[index] != undefined
+                  ? this.answer.problemAnswer[index]
+                  : "",
+            };
+            problemanswernew.push(answer);
+          });
+
+          this.multiple_choice.forEach((item, index) => {
+            let answer = {
+              id: item.id,
+              answer: this.answer.checkedAnswer[index].join(","), //把多选题的答案转换成逗号分隔的字符串
+            };
+            multipleanswernew.push(answer);
+          });
+          let query = {};
+          query.papernum = this.papernum;
+          query.userid = this.userInfo.id;
+          query.radioanswernew = JSON.stringify(radioanswernew);
+          query.judgeanswernew = JSON.stringify(judgeanswernew);
+          query.multipleanswernew = JSON.stringify(multipleanswernew);
+          query.problemanswernew = JSON.stringify(problemanswernew);
+          CommitExam(query).then((res) => {
+            if(res.code!==200)return this.$message.error('提交试卷失败！')
+            this.$message.success(`你的成绩为${res.totalscore}分`)
+          });
         })
         .catch(() => {});
     },
   },
   computed: {
-    ...mapGetters(["examInfo"]),
+    ...mapGetters(["examInfo", "userInfo"]),
   },
   watch: {
     // "answer.radioAnswer": {
@@ -424,7 +495,7 @@ export default {
       handler(val) {
         // 监听题目状态
         this.setActive(val.radioAnswer, this.single_choice);
-        this.setActive(val.checkedAnswer, this.multiple_choice);
+        this.setMultipleActive(val.checkedAnswer, this.multiple_choice);
         this.setActive(val.judgeAnswer, this.questions);
         this.setActive(val.problemAnswer, this.case_problem);
       },

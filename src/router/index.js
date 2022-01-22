@@ -81,7 +81,7 @@ export const aysncRouter = [
   {
     path: '/stuExams',
     component: Layout,
-    meta: { title: '考试', roles: ['student'], icon: 'iconlzt icon-lzt-kaoshi' },
+    meta: { title: '考试', roles: ['student','admin'], icon: 'iconlzt icon-lzt-kaoshi' },
     redirect: '/stuExams',
     children: [
       { path: '/stuExams', name: 'stuExams', meta: { title: '试卷列表', icon: 'iconlzt icon-lzt-kaoshi' }, component: () => import('@/views/studentsend/exam/StuExams') },
@@ -96,6 +96,14 @@ export const aysncRouter = [
       { path: '/stucourse', name: 'stucourses', meta: { title: '我的课程', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/studentsend/course/StuCourse') },
       { path: '/stuChatpRecord', name: 'stuChatpRecord', meta: { title: '章节记录', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/studentsend/course/StuChatpRecord') },
     ]
+  },
+  {
+    path: '/studyRecord',
+    component: Layout,
+    meta: { title: '学习管理', roles: ['student'], icon: 'iconlzt icon-lzt-kechengguanli' },
+    redirect: '/studyRecord',
+    children: [
+      { path: '/studyRecord', name: 'studyRecord', meta: { title: '学习记录', icon: 'iconlzt icon-lzt-kechengguanli' }, component: () => import('@/views/studentsend/record/StudyRecord') },    ]
   }
 ]
 const router = new VueRouter({

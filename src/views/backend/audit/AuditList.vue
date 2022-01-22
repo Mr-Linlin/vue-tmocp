@@ -82,7 +82,7 @@ export default {
     // 根据id删除
     async deleteClick(id) {
       let table = {
-        table: "tm_ocp_signup",
+        tale: "tm_ocp_signup",
         deletekey: "id",
         deletearray: JSON.stringify([id]),
       };
